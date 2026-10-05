@@ -4,14 +4,12 @@ import { motion, useReducedMotion } from "framer-motion";
 import { books, records as allRecords } from "./data.js";
 import { MobileTabs, Sidebar, TopBar } from "./components/Chrome.jsx";
 import { RecordDialog } from "./components/RecordDialog.jsx";
-import {
-  BriefingScreen,
-  CouncilScreen,
-  EstatesScreen,
-  IstanaScreen,
-  TreasuryScreen,
-  Updating,
-} from "./components/Screens.jsx";
+import { AdunScreen } from "./components/Adun.jsx";
+import { GambaranScreen } from "./components/Gambaran.jsx";
+import { AnalitikScreen } from "./components/Analitik.jsx";
+import { KritikalScreen } from "./components/Kritikal.jsx";
+import { RankingScreen } from "./components/Ranking.jsx";
+import { Updating } from "./components/Screens.jsx";
 
 function matches(record, query) {
   if (!query.trim()) return true;
@@ -23,7 +21,7 @@ export default function App() {
   const reduce = useReducedMotion();
   const [section, setSection] = useState("briefing");
   const [period, setPeriod] = useState("quarter");
-  const [query, setQuery] = useState("");
+  const query = "";
   const [openId, setOpenId] = useState(null);
   const [signed, setSigned] = useState([]);
   const [updating, setUpdating] = useState(false);
@@ -88,23 +86,15 @@ export default function App() {
 
   let screen = null;
   if (section === "briefing") {
-        screen = (
-          <BriefingScreen
-            book={book}
-            records={waiting}
-            query={query}
-            onOpen={open}
-            onUpdate={() => { setProgress(0); setUpdating(true); }}
-          />
-        );
+        screen = <GambaranScreen query={query} />;
   } else if (section === "treasury") {
-    screen = <TreasuryScreen book={book} records={waiting} query={query} onOpen={open} />;
+    screen = <AdunScreen query={query} />;
   } else if (section === "estates") {
-    screen = <EstatesScreen book={book} query={query} />;
+    screen = <RankingScreen query={query} />;
   } else if (section === "council") {
-    screen = <CouncilScreen records={visibleRecords} query={query} onOpen={open} />;
+    screen = <KritikalScreen />;
   } else {
-    screen = <IstanaScreen records={allRecords} query={query} onOpen={open} />;
+    screen = <AnalitikScreen />;
   }
 
   return (
@@ -119,15 +109,7 @@ export default function App() {
         </a>
         <Sidebar section={section} onSelect={setSection} />
         <div className="flex min-h-0 min-w-0 flex-1 flex-col">
-          <TopBar
-            section={section}
-            period={period}
-            onPeriod={setPeriod}
-            query={query}
-            onQuery={setQuery}
-            onUpdate={() => { setProgress(0); setUpdating(true); }}
-            onPrint={() => window.print()}
-          />
+          <TopBar section={section} />
           <main
             id="content"
             className="mx-auto w-full max-w-6xl min-h-0 flex-1 overflow-y-auto px-5 pt-2 pb-28 sm:px-8 lg:pb-10"

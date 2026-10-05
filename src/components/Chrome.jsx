@@ -1,17 +1,14 @@
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import * as Tabs from "@radix-ui/react-tabs";
-import * as Tooltip from "@radix-ui/react-tooltip";
 import {
-  BookOpen, Castle, ChevronDown, Ellipsis, Landmark, LayoutGrid, Scale, Trees,
+  AlertTriangle, BarChart3, ChevronDown, LayoutGrid, Trophy, Users,
 } from "lucide-react";
-import { periods, sections } from "../data.js";
+import { sections } from "../data.js";
 
 const icons = {
   briefing: LayoutGrid,
-  treasury: Landmark,
-  estates: Trees,
-  council: Scale,
-  istana: Castle,
+  treasury: Users,
+  estates: Trophy,
+  council: AlertTriangle,
+  istana: BarChart3,
 };
 
 function FlagMark() {
@@ -30,7 +27,7 @@ function FlagMark() {
 
 export function Sidebar({ section, onSelect }) {
   return (
-    <aside className="hidden h-full w-[248px] shrink-0 flex-col bg-sidebar px-3 py-5 lg:flex">
+    <aside className="hidden h-full w-[280px] shrink-0 flex-col bg-sidebar px-3 py-5 lg:flex">
       <div className="flex items-center justify-between px-3 pb-6">
         <p className="flex items-center gap-2 text-[17px] font-semibold tracking-tight text-ink">
           <FlagMark />
@@ -92,7 +89,7 @@ export function MobileTabs({ section, onSelect }) {
           <button
             key={item.id}
             type="button"
-            className="hit flex flex-1 flex-col items-center justify-center gap-0.5 text-[11px]"
+            className="hit flex flex-1 flex-col items-center justify-center gap-0.5 px-0.5 text-center text-[10px] leading-tight"
             aria-current={current ? "page" : undefined}
             style={{ color: current ? "#010066" : "#5c6b82" }}
             onClick={() => onSelect(item.id)}
@@ -106,67 +103,16 @@ export function MobileTabs({ section, onSelect }) {
   );
 }
 
-export function TopBar({ section, period, onPeriod, query, onQuery, onUpdate, onPrint }) {
+export function TopBar({ section }) {
   const current = sections.find((item) => item.id === section);
-  const title = section === "briefing" ? "Overview" : current?.label;
   return (
     <header
-      className="flex flex-col gap-4 px-5 pt-6 pb-2 sm:flex-row sm:items-center sm:px-8"
+      className="px-5 pt-6 pb-2 sm:px-8"
       style={{ paddingTop: "max(24px, env(safe-area-inset-top))" }}
     >
-      <h1 className="min-w-0 flex-1 text-[32px] font-medium tracking-tight text-ink">
-        {title}
+      <h1 className="text-[32px] font-medium tracking-tight text-ink">
+        {current?.label}
       </h1>
-      <div className="flex flex-wrap items-center gap-2">
-        <label className="relative min-w-[180px] flex-1 sm:max-w-[220px]">
-          <span className="sr-only">Search the books</span>
-          <input
-            value={query}
-            onChange={(event) => onQuery(event.target.value)}
-            placeholder={section === "council" ? "Search sittings" : "Search"}
-            className="hit w-full rounded-full border border-line bg-sidebar px-4 text-sm"
-          />
-        </label>
-        <Tabs.Root value={period} onValueChange={onPeriod}>
-          <Tabs.List className="segment" aria-label="Period">
-            {periods.map((item) => (
-              <Tabs.Trigger key={item.id} value={item.id}>
-                {item.label}
-              </Tabs.Trigger>
-            ))}
-          </Tabs.List>
-        </Tabs.Root>
-        <DropdownMenu.Root>
-          <Tooltip.Root>
-            <Tooltip.Trigger asChild>
-              <DropdownMenu.Trigger
-                className="hit grid place-items-center rounded-full bg-sidebar"
-                aria-label="More actions"
-              >
-                <Ellipsis size={18} aria-hidden="true" />
-              </DropdownMenu.Trigger>
-            </Tooltip.Trigger>
-            <Tooltip.Portal>
-              <Tooltip.Content className="rounded-lg bg-paper px-2 py-1 text-sm shadow" sideOffset={6}>
-                More actions
-              </Tooltip.Content>
-            </Tooltip.Portal>
-          </Tooltip.Root>
-          <DropdownMenu.Portal>
-            <DropdownMenu.Content className="menu material" align="end" sideOffset={8}>
-              <DropdownMenu.Item asChild>
-                <button type="button" onClick={onUpdate}>Update the books</button>
-              </DropdownMenu.Item>
-              <DropdownMenu.Item asChild>
-                <button type="button" onClick={onPrint}>
-                  <BookOpen size={16} className="mr-2" aria-hidden="true" />
-                  Print this briefing
-                </button>
-              </DropdownMenu.Item>
-            </DropdownMenu.Content>
-          </DropdownMenu.Portal>
-        </DropdownMenu.Root>
-      </div>
     </header>
   );
 }

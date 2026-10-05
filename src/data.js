@@ -1,9 +1,9 @@
 export const sections = [
-  { id: "briefing", label: "Briefing", group: "Today" },
-  { id: "treasury", label: "Treasury", group: "The books" },
-  { id: "estates", label: "Estates", group: "The books" },
-  { id: "council", label: "Council", group: "The books" },
-  { id: "istana", label: "Istana", group: "The books" },
+  { id: "briefing", label: "Gambaran Keseluruhan", group: "Today" },
+  { id: "treasury", label: "Semua 48 ADUN BN", group: "The books" },
+  { id: "estates", label: "Ranking Prestasi", group: "The books" },
+  { id: "council", label: "Kawalan Kritikal", group: "The books" },
+  { id: "istana", label: "Analitik Bahagian", group: "The books" },
 ];
 
 export const periods = [
